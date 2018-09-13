@@ -1,7 +1,5 @@
 # NodeMan
 
-@[NestJs, Git, Ubuntu]
-
 **NodeMan**是一款构建于NestJs框架的用于管理Ubuntu服务器上运行着的Node server的应用。特点概述：
  
 - **使用简单** ：只需要在管理端页面输入一个IP地址，就可以管理你的Node server；
@@ -9,7 +7,6 @@
 - **高级功能** ：一切配置妥当后，就可以通过NodeMan来管理你的Node server了，如果还想自动处理服务器证书问题，可以继续配置域名等相关设置。
 
 -------------------
-[TOC]
 
 ## NodeMan简介
 

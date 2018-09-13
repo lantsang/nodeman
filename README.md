@@ -34,7 +34,7 @@ async function bootstrap() {
 ```
 
 ### 流程图
-![](https://github.com/lantsang/nodeman/blob/master/Node%20server%20management%20structure.png?raw=true)
+![](https://github.com/lantsang/nodeman/blob/master/Node%20server%20management%20structure.jpg?raw=true)
 
 > **提示：**想了解更多，请查看代码。
 

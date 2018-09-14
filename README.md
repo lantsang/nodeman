@@ -10,7 +10,7 @@
 
 ## NodeMan简介
 
-> NodeMan构建于NestJs框架，NestJs是一个高级的用于构建高效、可靠和可伸缩的服务端应用的NodeJs框架。    —— [NestJs](https://nestjs.com)
+> NodeMan构建于NestJs框架，NestJs是一个高级的用于构建高效、可靠和可伸缩的服务端应用的NodeJs框架。  —— [NestJs](https://nestjs.com)
 
 为了便于管理，我们在逻辑上对控制端和代理端进行了区分，当NodeMan启动时，会自动根据当前配置来决定加载哪些Module，具体代码如下： 
 

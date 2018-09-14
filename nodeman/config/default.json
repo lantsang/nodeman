@@ -1,0 +1,6 @@
+{
+    "ManagePort": 3000,
+    "UseHttps": false,
+    "ProxyPort": 8222,
+    "IsManager": true
+}

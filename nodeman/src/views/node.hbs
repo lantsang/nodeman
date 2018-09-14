@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="..//css/spinner.css">
+    <link rel="stylesheet" href="../jsoneditor/jsoneditor.min.css">
+
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../jsoneditor/jsoneditor.min.js"></script>
+</head>
+
+<body>
+    <div id="mask">
+        <div class="spinner" style="display:none;">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div class="container-fluid" style="margin-top:20px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-6 control-label">Server Address
+                            <span style="color:red;">*</span>
+                        </label>
+                        <div class="col-md-12">
+                            <input type="email" class="form-control" id="inputAddress" placeholder="Please enter a server address">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px;">
+                <button id="addNode" class="col col-md-2 col-md-push-5 col-sm-12 col-xs-12 layui-btn layui-btn-normal">Add</button>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <button id="Upload" class="col col-md-2 col-md-push-5 col-sm-12 col-xs-12 layui-btn">
+                    Certificate
+                </button>
+            </div>
+            <div class="row justify-content-md-center" style="margin-top:10px;">
+                <button id="searchRestaurants" class="col col-md-2 col-md-push-5 col-sm-12 col-xs-12 layui-btn layui-btn-warm">
+                    Search Restaurants
+                </button>
+            </div>
+        </div>
+    </div>
+    <div align="right">
+        <div class="layui-btn-group" style="margin-top:20px;">
+            <button id="detailBtn" class="layui-btn layui-btn-primary">Detail</button>
+            <button id="editBtn" class="layui-btn layui-btn-warm">Edit</button>
+            <button id="configBtn" class="layui-btn">Config</button>
+            <button id="deleteBtn" class="layui-btn layui-btn-danger">Delete</button>
+        </div>
+        <div class="layui-btn-group" style="margin-top:20px;">
+            <button id="updateGitVersionBtn" class="layui-btn">Update</button>
+            <button id="deployBtn" class="layui-btn layui-btn-danger">Deploy</button>
+        </div>
+        <div class="layui-btn-group" style="margin-top:20px;margin-right:20px;">
+            <button id="startBtn" class="layui-btn">Start</button>
+            <button id="stopBtn" class="layui-btn layui-btn-danger">Stop</button>
+        </div>
+        <table class="layui-hide" id="node" lay-filter="node"></table>
+    </div>
+    <div id="restTableContainer">
+        <table class="layui-hide" id="rest" lay-filter="rest"></table>
+    </div>
+    <div id="popUp" style="display:none">
+        <div class="container-fluid" style="margin-top:20px;">
+            <div class="row">
+                <div class="col-md-12" style="display:none;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">ID</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="inputIdPop" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Server Address</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="inputAddressPop" placeholder="Please enter a server address"
+                                disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Server Name</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="inputNamePop" placeholder="Please enter a server name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Port in use</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="inputPortPop" placeholder="Please enter a port in use"
+                                disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Domain in use</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="inputDomainPop" placeholder="Please enter a domain in use">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Startup path</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="inputGitPathPop" placeholder="Please enter a  startup path">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Start Command</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="inputStartCommandPop" placeholder="Please enter a port number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Message</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="inputMessagePop" placeholder="Please enter a message">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Version</label>
+                <div class="col-md-12">
+                    <input type="text" class="form-control" id="inputVersionPop" placeholder="Please enter a version number">
+                </div>
+            </div>
+        </div>
+        <div class="row"></div>
+        <div class="row" style="padding-top:30px; padding-bottom:30px;">
+            <button id="updateNodePop" class="layui-btn layui-btn-normal col-md-4 col-md-push-4 ">Modify</button>
+        </div>
+        <table class="layui-hide" id="node" lay-filter="node"></table>
+    </div>
+    <div id="deployment_record" style="display:none">
+        <table class="layui-hide" id="deployment" lay-filter="node_record"></table>
+    </div>
+    <div id="deploy" style="display:none;">
+        <div class="row">
+            <div class="col-md-12" style="display:none;">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">ID</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="inputId" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">Version</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="inputVersion" placeholder="Please enter a version number">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">Revision Number</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="inputRevision" placeholder="Please enter a revision number">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center" style="padding-top:30px; padding-bottom:30px;">
+            <button id="confirmDeploy" class="layui-btn layui-btn-normal col-md-4 col-md-push-4 ">Deploy</button>
+        </div>
+    </div>
+    <div id="deploy_details" style="display:none;">
+        <div class="spinner" style="display:none;">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div style="padding: 20px; background-color: #F2F2F2;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card-header">...</div>
+                    <div class="layui-card" id="deploy_details_remark">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="restart_directly" style="display:none;">
+        <div class="spinner" style="display:none;">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div style="padding: 20px; background-color: #F2F2F2;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card-header">...</div>
+                    <div class="layui-card" id="restart_directly_details">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="git_window" style="display:none;">
+        <div class="spinner" style="display:none;">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div style="padding: 20px; background-color: #F2F2F2;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card-header">...</div>
+                    <div class="layui-card" id="git_window_details">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="edit_json_window" style="display:none">
+        <div class="spinner" style="display:none;">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div style="padding: 20px; background-color: #F2F2F2;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div id="edit_json_window_head" class="layui-card-header row">...</div>
+                    <div class="layui-card" id="edit_json_window_details">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/html" id="details_look">
+   <a class="layui-btn layui-btn-xs layui-btn-danger" style="color:#fff;" lay-event="fallback">Fallback</a>
+</script>
+
+<script type="text/javascript">
+    var dataList = [];//列表返回数组
+    var record = [];//查看部署
+    var tableIns = {};
+    var psaVal;//服务器地址
+    var cachedToken = {};//token存储
+    var checkboxStorage = []; //Storage the server IDs which is checked.
+
+    $(function () {
+        let token = window.localStorage.getItem('token');
+        let expiresIn = parseInt(window.localStorage.getItem('expiresIn'));
+        let nowTimeInSeconds = parseInt(new Date().getTime() / 1000 + "");
+        cachedToken.validTo = parseInt(window.localStorage.getItem('validTo')) + expiresIn;
+        console.log(nowTimeInSeconds, cachedToken.validTo)
+        if (!token || nowTimeInSeconds > cachedToken.validTo) {
+            window.location.href = '/';
+        } else {
+            getServerList();
+        }
+        //跳转证书
+        $('#Upload').click((e) => {
+            window.open('/auth/upload');
+        })
+
+        //跳转餐厅
+        $('#restaurant').click((e) => {
+            window.open('/auth/restaurant');
+        })
+
+        // 拼接请求头
+        function addHeaders() {
+            let token = window.localStorage.getItem('token');
+            var Authorization = { 'Authorization': ('Bearer ' + token) };
+            var headers = Object.assign({
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept': '*/*',
+            }, Authorization);
+
+            return headers;
+        }
+
+        //获取数据库列表
+        function getServerList() {
+            $.ajax({
+                type: "GET",
+                url: '/server/list',
+                data: {
+                },
+                headers: addHeaders(),
+                processData: false,
+                success: function (data) {
+                    console.log(JSON.stringify(data) + '获取list数据列表')
+                    dataList = data;
+                    dataOption = data;
+                    layui.use('table', function () {
+                        var table = layui.table;
+
+                        //Instance a table
+                        tableIns = table.render({
+                            elem: '#node'
+                            , height: 500
+                            , data: dataList
+                            , page: true //开启分页
+                            , cols: [[{ type: 'checkbox', fixed: 'left' }
+                                , { field: 'Id', title: 'ID', width: 40 }
+                                , {
+                                field: 'ProxyStatus', title: 'Proxy status', align: 'center', width: 110, templet: function (d) {
+                                    var text = '<i class="layui-icon layui-icon-circle-dot" style="color: #FF5722;"></i>';
+                                    if (d.ProxyStatus === 0) {
+                                        text = '<i class="layui-icon layui-icon-circle-dot" style="color: #009688;"></i>';
+                                    }
+                                    else if (d.ProxyStatus === 1) {
+                                        text = '<i class="layui-icon layui-icon-circle-dot" style="color: #FFB800;"></i>';
+                                    }
+                                    return text;
+                                }
+                            }
+                                , {
+                                field: 'ServerStatus', title: 'Server status', align: 'center', width: 115, templet: function (d) {
+                                    var text = '<i class="layui-icon layui-icon-circle-dot" style="color: #FF5722;"></i>';
+                                    if (d.ServerStatus === 0) {
+                                        text = '<i class="layui-icon layui-icon-circle-dot" style="color: #009688;"></i>';
+                                    }
+                                    else if (d.ServerStatus === 1) {
+                                        text = '<i class="layui-icon layui-icon-circle-dot" style="color: #FFB800;"></i>';
+                                    }
+                                    return text;
+                                }
+                            }
+                                , { field: 'PhysicalServerAddress', title: 'Physical server', width: 130 }
+                                , { field: 'NodeServerName', title: 'Node server', width: 110 }
+                                , { field: 'ProcessId', title: 'Process id', width: 100 }
+                                , { field: 'Port', title: 'Port', width: 80 }
+                                , { field: 'Domain', title: 'Domain' }
+                                , { field: 'GitPath', title: 'Startup path', width: 120  }
+                                , { field: 'StartCommand', title: 'Start command', width: 130  }
+                                , { field: 'Version', title: 'Version' }
+                                , { field: 'Revision', title: 'Revision' }
+                                , { field: 'Remark', title: 'Remark', width: 100 }
+                                , { field: 'Message', title: 'Message' }
+                            ]]
+                        });
+
+                        createWebSocket(tableIns);
+                        initBtnsEvent();
+
+                        // Checkbox listener
+                        table.on('checkbox(node)', (obj) => {
+                            //TODO: filter by running status
+                            $('#restTableContainer').children().hide();
+                            if (obj.type == 'all') {
+                                //checked all 
+                                if (obj.checked)
+                                    checkboxStorage = dataList.map((value) => {
+                                        return value.Id;
+                                    });
+                                else
+                                    checkboxStorage = [];
+                            } else {
+                                if (obj.checked)
+                                    checkboxStorage.push(obj.data.Id);
+                                else
+                                    for (let i = 0; i < checkboxStorage.length; i++)
+                                        if (checkboxStorage[i] == obj.data.Id) {
+                                            checkboxStorage.splice(i--, 1);
+                                            break;
+                                        }
+                            }
+                        });
+
+                        // click row event handler
+                        table.on('row(node)', obj => {
+                            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                            registToolsClickEvent(obj.data, obj)
+                        })
+
+                    })
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+        }
+
+        //部署点击事件
+        $('#confirmDeploy').click((e) => {
+            let id = $('#inputId').val();
+            let version = $('#inputVersion').val();
+            let revision = $('#inputRevision').val();
+            if (version && revision && id) {
+                $('#deploy').hide();
+                layer.closeAll('page')
+                deploy(id, version, revision);
+            } else {
+                layer.msg("Please complete the form")
+            }
+        })
+
+        //修改点击事件
+        $('#updateNodePop').click((e) => {
+            $('#popUp').hide();
+            let id = $('#inputIdPop').val();
+            let physicalServerAddress = $('#inputAddressPop').val();
+            let nodeServerName = $('#inputNamePop').val();
+            let port = $('#inputPortPop').val();
+            let message = $('#inputMessagePop').val();
+            let version = $('#inputVersionPop').val();
+            let gitPath = $('#inputGitPathPop').val();
+            let startCommand = $('#inputStartCommandPop').val();
+            let domain = $('#inputDomainPop').val();
+            console.log(id)
+            updateList(id, physicalServerAddress, nodeServerName, port, version, message, gitPath, startCommand, domain);
+        })
+
+        // Click search restaurants button
+        $('#searchRestaurants').click((e) => {
+            if (checkboxStorage.length == 0) {
+                layer.confirm('No servers is selected', (index) => {
+                    layer.close(index);
+                })
+                return;
+            }
+            searchRestaurants();
+        })
+
+        // Click Add button listener
+        $("#addNode").click((e) => {
+            let physicalServerAddress = $('#inputAddress').val();
+            if (physicalServerAddress) {
+                AddList(physicalServerAddress);
+            } else {
+                layer.msg('Please change the input information')
+            }
+        });
+
+        // Click detail button and search deploy history list.
+        var seehistoryList = (physicalServerAddress, port, id) => {
+            var data = JSON.stringify({
+                'PhysicalServerAddress': physicalServerAddress,
+                'Port': port
+            })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/history/list",
+                data: data,
+                success: function (res) {
+                    record = res.Data;
+                    console.log(res)
+                    record.forEach(function (currentValue, index, arr) {
+                        let start = parseInt(Number(currentValue.StartTime));
+                        let stop = parseInt(Number(currentValue.StopTime));
+                        let timer = getLocalTime(start);
+                        let stopTimer = getLocalTime(stop)
+                        currentValue.StartTime = timer;
+                        currentValue.StopTime = stopTimer;
+                    })
+                    layui.use('table', function () {
+                        var table = layui.table;
+                        table.render({
+                            elem: '#deployment',
+                            height: 500,
+                            data: record,
+                            page: true,
+                            cols: [[
+                                { field: 'Id', title: 'ID', width: 80, fixed: 'left' }
+                                , { field: 'Version', title: 'Version', width: 120 }
+                                , { field: 'Revision', title: 'Revision', width: 355 }
+                                , { field: 'StartTime', title: 'Start Time', width: 180 }
+                                , { field: 'StopTime', title: 'Stop time', width: 180 }
+                                , { field: 'Remark', title: 'Remark', width: 100 }
+                                , { fixed: 'right', width: 100, align: 'center', toolbar: '#details_look' }
+                            ]]
+                        });
+
+                        table.on('tool(node_record)', function (obj) {
+                            var data = obj.data
+                                , layEvent = obj.event;
+                            if (layEvent === 'fallback') {
+                                if (data.StartCommand)
+                                    layer.confirm('Fallback and restart?', function (index) {
+                                        layer.close(index);
+                                        $('#layui-layer1').hide();
+                                        $('#layui-layer-shade1').hide();
+                                        deploy(id, data.Version, data.Revision, true);
+                                    });
+                                else
+                                    layer.confirm('There is no start command, so just fallback and not restart?', (index) => {
+                                        layer.close(index);
+                                        $('#layui-layer1').hide();
+                                        $('#layui-layer-shade1').hide();
+                                        deploy(id, data.Version, data.Revision, false);
+                                    })
+                            }
+                        });
+
+                    })
+                },
+                error: function (fail) {
+                    console.log(fail)
+                }
+            });
+        }
+
+        // Add method
+        var AddList = (physicalServerAddress) => {
+            $('.spinner').show();
+            layer.open({
+                type: 1,
+                title: 'Add option',
+                maxmin: true,
+                shadeClose: false, //点击遮罩关闭层
+                area: ['700px', '520px'],
+                content: $('#restart_directly'),
+                cancel: (res) => {
+                    $('#restart_directly').hide();
+                    $('#restart_directly_details').children().remove();
+                }
+            });
+            var data = JSON.stringify({
+                'PhysicalServerAddress': physicalServerAddress
+            })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/addV2",
+                data: data,
+                success: function (res) {
+                    $('.spinner').hide();
+                    $('#inputAddress').val('');
+                    console.log(res);
+                    $('#restart_directly_details').append(`<div class="layui-card-body"> Get server list completed And add ${res.length} new server items... </div>`);
+                    if (res.length > 0)
+                        for (let item of res)
+                            dataList.push(res);
+                    getServerList();
+                },
+                error: function (err) {
+                    $('.spinner').hide();
+                    $('#restart_directly_details').append(`<div class="layui-card-body"> ${err.responseText.replace(/\"/g, "")} ... </div>`)
+                }
+            });
+        }
+
+        // 修改方法
+        var updateList = (id, physicalServerAddress, nodeServerName, port, version, message, gitPath, startCommand, domain) => {
+            var data = JSON.stringify({
+                'Id': id,
+                'PhysicalServerAddress': physicalServerAddress,
+                'NodeServerName': nodeServerName,
+                'Port': port,
+                'Version': version,
+                'Message': message,
+                'GitPath': gitPath,
+                'StartCommand': startCommand,
+                'Domain': domain
+            })
+
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/update",
+                data: data,
+                success: function (res) {
+                    if (res.result) {
+                        layer.closeAll('page')
+                        getServerList();
+                    }
+                },
+                error: function (fail) {
+                    if (fail.status == 500) {
+                        layer.msg('The proxy server is not started');
+                    }
+                }
+            });
+        }
+
+        // 删除方法
+        var deleteList = (id) => {
+            var data = JSON.stringify({ 'Id': id })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/delete",
+                data: data,
+                success: function (res) {
+                    if (res.Result) {
+                        $('#restart_directly_details').append(`<div class="layui-card-body"> Delete completed... </div>`);
+                    }
+                },
+                fail: function (fail) {
+                    console.log(fail)
+                }
+            });
+        }
+
+        // update git version to keep pace with the server
+        var getLatestVersion = (id) => {
+            $('.spinner').show();
+            layer.open({
+                type: 1,
+                title: 'Update git version',
+                maxmin: true,
+                shadeClose: false, //点击遮罩关闭层
+                area: ['600px', '520px'],
+                content: $('#git_window'),
+                cancel: () => {
+                    $('#git_window').hide();
+                    $('#git_window_details').children().remove();
+                }
+            })
+            var data = JSON.stringify({ 'Id': id });
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/updateGitVerion",
+                data: data,
+                success: function (res) {
+                    for (let key in res)
+                        $('#git_window_details').append(`<div class="layui-card-body">  ${key + ' : ' + res[key]} </div >`);
+                    for (let index in dataList)
+                        if (dataList[index].Id == id && dataList[index].Revision != res.Version)
+                            setTimeout(() => {
+                                getServerList();
+                            }, 2000);
+                },
+                error: function (err) {
+                    console.log(err);
+                    $('#git_window_details').append(`<div class="layui-card-body"> ${err.responseText.replace(/\"/g, "")} </div>`)
+                },
+                complete: function () {
+                    $('.spinner').hide();
+                }
+            })
+        }
+
+        // deploy method
+        var deploy = (id, version, revision, isRestart) => {
+            layer.open({
+                type: 1,
+                title: 'Deployment details',
+                maxmin: true,
+                shadeClose: false, //点击遮罩关闭层
+                area: ['600px', '520px'],
+                content: $('#deploy_details'),
+                success: function (layero, index) {
+                },
+                cancel: (res) => {
+                    $('#deploy_details_remark').children().remove();
+                    $('#deploy_details').hide();
+                }
+            });
+            $('.spinner').show();
+            var data = JSON.stringify({
+                'Id': id,
+                'Version': version,
+                'Revision': revision
+            })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/deploy",
+                data: data,
+                success: function (res) {
+                    $('.spinner').hide();
+                    if (res) {
+                        $('#deploy_details_remark').append(`<div class="layui-card-body"> ${res.message}... </div> `)
+                        setTimeout(gitUpdate(id, version, revision, isRestart), 1000)
+                    }
+                },
+                error: function (fail) {
+                    console.log(fail)
+                    $('.spinner').hide();
+                    if (fail.status == 500) {
+                        $('#deploy_details_remark').append(`<div class="layui-card-body"> ${fail.responseText.replace(/\"/g, "")}... </div> `)
+                        setTimeout(gitUpdate(id, version, revision, isRestart), 1000)
+                    }
+                }
+            });
+        }
+
+        // kill进程
+        var killProcess = (id, del, obj) => {
+            let title = '';
+            if (del) {
+                title = 'Delete option'
+            } else {
+                title = 'Stop option'
+            }
+            $('.spinner').show();
+            layer.open({
+                type: 1,
+                title: title,
+                maxmin: true,
+                shadeClose: false, //点击遮罩关闭层
+                area: ['700px', '520px'],
+                content: $('#restart_directly'),
+                cancel: (res) => {
+                    $('#restart_directly').hide();
+                    $('#restart_directly_details').children().remove();
+                }
+            });
+            var data = JSON.stringify({
+                'Id': id
+            })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/killProcess",
+                data: data,
+                success: function (res) {
+                    console.log(res)
+                    $('.spinner').hide();
+                    if (res) {
+                        $('#restart_directly_details').append(`<div class="layui-card-body"> ${res.message}... </div> `)
+                        if (del) {
+                            deleteList(id);
+                            obj.del();
+                        }
+                    }
+                },
+                error: function (fail) {
+                    $('.spinner').hide();
+                    console.log(fail)
+                    if (fail.status !== 200) {
+                        $('#restart_directly_details').append(`<div class="layui-card-body"> ${fail.responseText.replace(/\"/g, "")}... </div> `)
+                    }
+                }
+            });
+        }
+
+        // 启动方法
+        var restartDirectly = (id) => {
+            $('.spinner').show();
+            layer.open({
+                type: 1,
+                title: 'Start option',
+                maxmin: true,
+                shadeClose: false, //点击遮罩关闭层
+                area: ['700px', '520px'],
+                content: $('#restart_directly'),
+                cancel: (res) => {
+                    $('#restart_directly').hide();
+                    $('#restart_directly_details').children().remove();
+                }
+            });
+            var data = JSON.stringify({
+                'Id': id
+            })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/restartDirectly",
+                data: data,
+                success: function (res) {
+                    $('.spinner').hide();
+                    if (res) {
+                        $('#restart_directly_details').append(`<div class="layui-card-body"> ${res.message.replace('Deployment', 'Start')}... </div> `)
+                        getServerList();
+                    }
+                },
+                error: function (fail) {
+                    $('.spinner').hide();
+                    console.log(fail)
+                    if (fail.status == 500) {
+                        $('#restart_directly_details').append(`<div class="layui-card-body"> ${fail.responseText.replace(/\n/g, '<br />').replace(/\"/g, "")}... </div> `)
+                    }
+                }
+            });
+        }
+
+        // git reset method
+        var gitUpdate = (id, version, revision, isRestart) => {
+            $('.spinner').show();
+            var data = JSON.stringify({
+                'Id': id,
+                'Version': version,
+                'Revision': revision
+            })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/gitUpdate",
+                data: data,
+                success: function (res) {
+                    if (res) {
+                        $('#deploy_details_remark').append(`<div class="layui-card-body"> ${res.message}... </div> `);
+                        if (isRestart)
+                            setTimeout(restart(id, version, revision), 1000)
+                    }
+                },
+                error: function (fail) {
+                    console.log(fail)
+                    if (fail.status == 500) {
+                        layer.msg('Git pull action failed.');
+                    }
+                },
+                complete: function () {
+                    $('.spinner').hide();
+                }
+            });
+        }
+
+        // restart
+        var restart = (id, version, revision) => {
+            $('.spinner').show();
+            var data = JSON.stringify({
+                'Id': id,
+                'Version': version,
+                'Revision': revision
+            })
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/restart",
+                data: data,
+                success: function (res) {
+                    $('.spinner').hide();
+                    console.log(res + 'restart 返回的数据')
+                    if (res) {
+                        $('#deploy_details_remark').append(`<div class="layui-card-body"> ${res.message}... </div> `);
+                        getServerList();
+                    }
+                },
+                error: function (fail) {
+                    $('.spinner').hide();
+                    console.log(fail)
+                    if (fail.status == 500 || fail.status == 502) {
+                        $('#deploy_details_remark').append(`<div class="layui-card-body"> ${fail.responseText.splice(/\"/g, '')}... </div >`);
+                    }
+                }
+            });
+        }
+
+        // get restmesh configuration file and edit it!
+        var getConfig = (server) => {
+            $('.spinner').show();
+            var data = JSON.stringify({ 'Id': server.Id });
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/server/getConfig",
+                data: data,
+                success: function (res) {
+                    var windowHeight = $(window).height() - 100;
+                    var fileNme = server.StartCommand.indexOf('production') >= 0 ? 'production' : 'development';
+                    $('#edit_json_window_head').html(`<div class="col-md-8 col-sm-8">IP:${server.PhysicalServerAddress} Port:${server.Port} File name: ${fileNme}.config.json</div>
+                    <button id="SaveConfig" class="col-md-1 col-sm-1 layui-btn layui-btn-normal">Save</button>
+                    <button id="SaveConfigAndRestart" class="col-md-2 col-sm-2 layui-btn layui-btn-danger">Save and Restart</button>`);
+                    $('#edit_json_window_details').append(`<div id="jsoneditor" class="col-md-12" style="height:${windowHeight - 30}px"></div>`)
+
+                    var container = document.getElementById("jsoneditor");
+                    var options = {
+                        mode: 'code',
+                        modes: ['code', 'form', 'text', 'tree', 'view'],
+                        onError: function (err) {
+                            alert(err.toString());
+                        },
+                        onModeChange: function (newMode, oldMode) {
+                            console.log('Mode switched from', oldMode, 'to', newMode);
+                        }
+                    };
+                    var editor = new JSONEditor(container, options, json);
+
+                    // set json
+                    var json = res;
+                    editor.set(json);
+
+                    // Bind buttons click handler
+                    $("#SaveConfig").click({ server: server, editor: editor }, saveConfig);
+                    $("#SaveConfigAndRestart").click({ server: server, editor: editor }, saveConfigAndRestart);
+                },
+                error: function (error) {
+                    console.log(error);
+                    $('#edit_json_window_head').html(`Cannot get configuration file on ${server.PhysicalServerAddress}:${server.Port}`);
+                    $('#edit_json_window_details').append(`<div class="layui-card-body"> ${error.responseText.replace(/\"/g, "")}... </div> `);
+                    $('.spinner').hide();
+                },
+                complete: function () {
+                    $('.spinner').hide();
+                }
+            })
+        }
+
+        // Save configuration not restart.
+        var saveConfig = (e) => {
+            var server = e.data.server;
+            var editor = e.data.editor;
+            var json = editor.get();
+            console.log(json);
+            layer.confirm('Update config file?', function (index) {
+                layer.close(index);
+                var filename = server.StartCommand.indexOf('production') >= 0 ? 'production' : 'development';
+                $('#edit_json_window_details').children().remove();
+                $('#edit_json_window_head').children().remove();
+                $('.spinner').show();
+                $('#edit_json_window_head').html(`Updateing configuration file on IP: ${server.PhysicalServerAddress} Port: ${server.Port} Filename: ${filename}.config.json ...`);
+                $.ajax({
+                    headers: addHeaders(),
+                    type: "POST",
+                    url: "/server/updateConfig",
+                    data: JSON.stringify({ 'Id': server.Id, 'ConfigJson': json }),
+                    success: function (res) {
+                        $('#edit_json_window_head').html(`Updateing configuration file on IP: ${server.PhysicalServerAddress} Port: ${server.Port} Filename: ${filename}.config.json Successful ...`);
+                        $('#edit_json_window_details').append(`<div class="layui-card-body"> ${res}... </div> `);
+                    },
+                    error: function (fail) {
+                        $('#edit_json_window_head').html(`Updateing configuration file on IP: ${server.PhysicalServerAddress} Port: ${server.Port} Filename: ${filename}.config.json Fail...`);
+                        $('#edit_json_window_details').append(`<div class="layui-card-body"> ${fail.responseText.replace(/\"/g, "")}... </div> `)
+                    },
+                    complete: function () {
+                        $('.spinner').hide();
+                    }
+                });
+            })
+        }
+
+        // If click save and restart button then will kill process, update configration file and restart server
+        var saveConfigAndRestart = (e) => {
+            var server = e.data.server;
+            var editor = e.data.editor;
+            var json = editor.get();
+            console.log(json);
+            layer.confirm('Update config file and restart server?', function (index) {
+                layer.close(index);
+                $('#edit_json_window_details').children().remove();
+                $('#edit_json_window_head').children().remove();
+                $('.spinner').show();
+                $('#edit_json_window_head').html(`Killing process on IP: ${server.PhysicalServerAddress} Port: ${server.Port} ...`);
+                var data = JSON.stringify({ 'Id': server.Id });
+                $.ajax({
+                    headers: addHeaders(),
+                    type: "POST",
+                    url: "/server/killProcess",
+                    data: data,
+                    success: function (res) {
+                        $('#edit_json_window_details').append(`<div class="layui-card-body"> ${res.message}... </div> `);
+                    },
+                    error: function (fail) {
+                        $('#edit_json_window_details').append(`<div class="layui-card-body"> ${fail.responseText.replace(/\"/g, "")}... </div> `)
+                    },
+                    complete: function () {
+                        var filename = server.StartCommand.indexOf('production') >= 0 ? 'production' : 'development';
+                        $('#edit_json_window_head').html(`Updateing configuration file on IP: ${server.PhysicalServerAddress} Port: ${server.Port} Filename: ${filename}.config.json ...`);
+                        $.ajax({
+                            headers: addHeaders(),
+                            type: "POST",
+                            url: "/server/updateConfig",
+                            data: JSON.stringify({ 'Id': server.Id, 'ConfigJson': json }),
+                            success: function (res) {
+                                $('#edit_json_window_details').append(`<div class="layui-card-body"> ${res}... </div> `);
+                            },
+                            error: function (fail) {
+                                $('#edit_json_window_details').append(`<div class="layui-card-body"> ${fail.responseText.replace(/\"/g, "")}... </div> `)
+                            },
+                            complete: function () {
+                                $('#edit_json_window_head').html(`Starting server on IP: ${server.PhysicalServerAddress} Port: ${server.Port} Environment: ${filename} ...`);
+                                $.ajax({
+                                    headers: addHeaders(),
+                                    type: "POST",
+                                    url: "/server/restartDirectly",
+                                    data: JSON.stringify({ 'Id': server.Id }),
+                                    success: function (res) {
+                                        $('#edit_json_window_head').html('Restart successful');
+                                        $('#edit_json_window_details').append(`<div class="layui-card-body"> ${res.message.replace('Deployment', 'Start')}... </div> `);
+                                    },
+                                    error: function (fail) {
+                                        $('#edit_json_window_head').html('Restart failed, please check the log');
+                                        $('#edit_json_window_details').append(`<div class="layui-card-body"> ${fail.responseText.replace(/\"/g, "")}... </div> `)
+                                    },
+                                    complete: function () {
+                                        $('.spinner').hide();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        // Search restaurants method
+        var searchRestaurants = () => {
+            $('.spinner').show();
+            var data = JSON.stringify({ 'Ids': checkboxStorage });
+            $.ajax({
+                headers: addHeaders(),
+                type: "POST",
+                url: "/restaurant/filterSearch",
+                data: data,
+                success: function (res) {
+                    console.log(res);
+                    rests = res.Data;
+                    if (rests.length > 0) {
+                        layui.use('table', function () {
+                            var table = layui.table;
+                            table.init('rest', {
+                                limit: rests.length,
+                                data: rests,
+                                cols: [[
+                                    { field: 'id', title: 'ID', width: 80, fixed: 'left', sort: true }
+                                    , { field: 'city', title: 'City', width: 150 }
+                                    , { field: 'name', title: 'Name', width: 150 }
+                                    , { field: 'address', title: 'address', width: 250 }
+                                    , { field: 'fullname', title: 'Fullname', width: 250 }
+                                    , { field: 'primaryPhone', title: 'Primary phone', width: 200 }
+                                    , {
+                                        field: 'lastOrder', title: 'Last order', width: 200, sort: true, templet: (item) => {
+                                            return getLocalTime(item.lastOrder);
+                                        }
+                                    }
+                                    , { field: 'ip', title: 'IP', width: 200 }
+                                    , { field: 'port', title: 'Port', width: 200 }
+                                ]]
+                            });
+
+                            table.on('sort(rest)', (obj) => {
+                                rests = rests.sort((a, b) => {
+                                    if (obj.type == 'asc')
+                                        return (a[obj.field] ? a[obj.field] : 0) > (b[obj.field] ? b[obj.field] : 0) ? 1 : -1;
+                                    else
+                                        return (a[obj.field] ? a[obj.field] : 0) > (b[obj.field] ? b[obj.field] : 0) ? -1 : 1;
+                                })
+                                table.init('rest', {
+                                    limit: rests.length,
+                                    data: rests,
+                                    cols: [[
+                                        { field: 'id', title: 'ID', width: 80, fixed: 'left', sort: true }
+                                        , { field: 'city', title: 'City', width: 150 }
+                                        , { field: 'name', title: 'Name', width: 150 }
+                                        , { field: 'address', title: 'address', width: 250 }
+                                        , { field: 'fullname', title: 'Fullname', width: 250 }
+                                        , { field: 'primaryPhone', title: 'Primary phone', width: 200 }
+                                        , {
+                                            field: 'lastOrder', title: 'Last order', width: 200, sort: true, templet: (item) => {
+                                                return getLocalTime(item.lastOrder);
+                                            }
+                                        }
+                                        , { field: 'ip', title: 'IP', width: 200 }
+                                        , { field: 'port', title: 'Port', width: 200 }
+                                    ]]
+                                });
+                            })
+                        })
+                    } else {
+                        if (res.ExtraData != '{}')
+                            layer.confirm(JSON.stringify(res.ExtraData), (index) => {
+                                layer.close(index);
+                            })
+                        else
+                            layer.confirm('There is no restaurants on selected', index => {
+                                layer.close(index);
+                            })
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                    layer.confirm(`${err.responseText.replace(/\"/g, "")}`, index => {
+                        layer.close(index);
+                    })
+                },
+                complete: function () {
+                    $('.spinner').hide();
+                }
+            })
+        }
+
+        var createWebSocket = (tableIns) => {
+            $.ajax({
+                headers: addHeaders(),
+                type: "GET",
+                url: "/geSocketPort",
+                success: function (res) {
+                    console.log("ws://" + window.location.hostname + ':' + res);
+                    var ws = new WebSocket("ws://" + window.location.hostname + ':' + res);
+                    ws.onopen = function (e) {
+                        console.log('Connection to server opened');
+                    }
+                    ws.onmessage = function (e) {
+                        var statusList = JSON.parse(e.data);
+                        console.log(statusList);
+                        if (statusList.length > 0)
+                            for (let status of statusList)
+                                for (let server of dataList)
+                                    if (status.Id == server.Id) {
+                                        server.ProxyStatus = status.ProxyStatus;
+                                        server.ServerStatus = status.ServerStatus;
+                                    }
+                        tableIns.reload({ data: dataList }, true);
+                    };
+                },
+                error: function (err) {
+                    console.log(err);
+                    layer.confirm('Cannot establish websocket, please check your management config', index => {
+                        layer.close(index);
+                    })
+                }
+            })
+        }
+        //Removing duplicate elements from array
+        function deleteRepeat(arr) {
+            for (var i = 0; i < arr.length - 1; i++) {
+                var old = arr[i]
+                for (var j = i + 1; j < arr.length; j++) {
+                    if (old.PhysicalServerAddress == arr[j].PhysicalServerAddress) {
+                        arr.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+            return arr;
+        }
+
+        //Convert time stamp to local time, structure: yyyy-mm-dd hh-mm-ss
+        function getLocalTime(nS) {
+            var now = new Date(nS);
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var seconds = now.getSeconds();
+            minute = minute > 9 ? minute : '0' + minute;
+            seconds = seconds > 9 ? seconds : '0' + seconds;
+            return year + "-" + month + "-" + date + " " + hour + "-" + minute + "-" + seconds;
+        }
+
+        //if not selected data, initalize button click event.
+        function initBtnsEvent() {
+            $('#detailBtn').click(noSelectedHandler);
+            $('#editBtn').click(noSelectedHandler);
+            $('#configBtn').click(noSelectedHandler);
+            $('#deleteBtn').click(noSelectedHandler);
+            $('#updateGitVersionBtn').click(noSelectedHandler);
+            $('#deployBtn').click(noSelectedHandler);
+            $('#stopBtn').click(noSelectedHandler);
+            $('#startBtn').click(noSelectedHandler);
+        }
+
+        //#region options tool regist event and handler
+        function registToolsClickEvent(server, obj) {
+            $('#detailBtn').unbind().click({ server: server }, detailHandler);
+            $('#editBtn').unbind().click({ server: server }, editHandler);
+            $('#configBtn').unbind().click({ server: server }, configHandler);
+            $('#deleteBtn').unbind().click({ server: server, obj: obj }, deleteHandler);
+            $('#updateGitVersionBtn').unbind().click({ server: server }, updateGitVersionHandler);
+            $('#deployBtn').unbind().click({ server: server }, deployHandler);
+            $('#stopBtn').unbind().click({ server: server, obj: obj }, stopHandler);
+            $('#startBtn').unbind().click({ server: server }, startHandler);
+        }
+
+        var detailHandler = (e) => {
+            var server = e.data.server;
+            layer.open({
+                type: 1,
+                title: `Server: ${server.NodeServerName} IP: ${server.PhysicalServerAddress} Port: ${server.Port}`,
+                maxmin: true,
+                shadeClose: false,
+                area: ['1000px', '565px'],
+                content: $('#deployment_record'),
+                success: function (layero, index) {
+                    seehistoryList(server.PhysicalServerAddress, server.Port, server.Id)
+                },
+                cancel: (res) => {
+                    $('#deployment_record').hide();
+                }
+            });
+        }
+
+        var editHandler = (e) => {
+            var server = e.data.server;
+            layer.open({
+                type: 1,
+                title: 'Update content',
+                maxmin: true,
+                shadeClose: false,
+                area: ['800px', '520px'],
+                content: $('#popUp'),
+                cancel: (res) => {
+                    $('#popUp').hide();
+                }
+            });
+            $('#inputIdPop').val(server.Id);
+            $('#inputAddressPop').val(server.PhysicalServerAddress);
+            $('#inputNamePop').val(server.NodeServerName);
+            $('#inputPortPop').val(server.Port);
+            $('#inputMessagePop').val(server.Message);
+            $('#inputGitPathPop').val(server.GitPath);
+            $('#inputStartCommandPop').val(server.StartCommand);
+            $('#inputVersionPop').val(server.Version);
+            $('#inputDomainPop').val(server.Domain);
+        }
+
+        var configHandler = (e) => {
+            var server = e.data.server;
+            layer.open({
+                type: 1,
+                title: 'Edit configuration file',
+                maxmin: true,
+                shadeClose: false,
+                area: ['1000px', '630px'],
+                content: $('#edit_json_window'),
+                success: function (layero, index) {
+                    getConfig(server);
+                },
+                cancel: (res) => {
+                    $('#edit_json_window').hide();
+                    $('#edit_json_window_details').children().remove();
+                    $('#edit_json_window_head').children().remove();
+                }
+            });
+        }
+
+        var deleteHandler = (e) => {
+            var server = e.data.server;
+            var obj = e.data.obj;
+            layer.confirm('Deleted?', function (index) {
+                layer.close(index);
+                for (let i in dataList) {
+                    if (dataList[i].Id == server.Id) {
+                        dataList.splice(i, 1)
+                    }
+                }
+                killProcess(server.Id, true, obj);
+            });
+        }
+
+        var updateGitVersionHandler = (e) => {
+            var server = e.data.server;
+            layer.confirm('Update git version?', function (index) {
+                layer.close(index);
+                getLatestVersion(server.Id);
+            })
+        }
+
+        var deployHandler = (e) => {
+            var server = e.data.server;
+            if (server.Domain && server.StartCommand) {
+                $('#inputVersion').val('');
+                $('#inputRevision').val('');
+                $('#inputId').val(server.Id);
+                layer.open({
+                    type: 1,
+                    title: 'Deploy option',
+                    maxmin: true,
+                    shadeClose: false,
+                    area: ['700px', '520px'],
+                    content: $('#deploy'),
+                    cancel: (res) => {
+                        $('#deploy').hide();
+                    }
+                });
+            }
+            else
+                layer.msg("Please complete the Domain and start command")
+        }
+
+        var stopHandler = (e) => {
+            var server = e.data.server;
+            var obj = e.data.obj;
+            layer.confirm('stop?', function (index) {
+                killProcess(server.Id, false, obj);
+                layer.close(index);
+            });
+        }
+
+        var startHandler = (e) => {
+            var server = e.data.server;
+            if (server.Domain && server.StartCommand)
+                layer.confirm('start?', function (index) {
+                    restartDirectly(server.Id);
+                    layer.close(index);
+                });
+            else
+                layer.msg("Please complete the Domain and start command")
+        }
+
+        var noSelectedHandler = () => {
+            layer.confirm('Please select one row first', index => {
+                layer.close(index);
+            })
+        }
+        //#End region
+    })
+
+</script>
+
+</html>

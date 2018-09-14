@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <style>
+        #login {
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background: -moz-linear-gradient(top, #000000 0%, #ffffff 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100%, #ffffff));
+            background: -webkit-linear-gradient(top, #000000 0%, #ffffff 100%);
+            background: -o-linear-gradient(top, #000000 0%, #ffffff 100%);
+            background: -ms-linear-gradient(top, #000000 0%, #ffffff 100%);
+            background: linear-gradient(to bottom, #000000 0%, #ffffff 100%);
+        }
+
+        .login_background {
+            width: 50%;
+            margin: 0 auto;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="login">
+        <div class="container">
+            <div class="row" style="padding-top: 20%;">
+                <div class="col-md-8 offset-md-4">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label" style="color:#ffffff">Email</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="email" placeholder="Please enter your email">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 offset-md-4">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label" style="color:#ffffff">Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" id="password" placeholder="Please enter your password">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin:0 auto">
+                    <button id="login_web" class="col-lg-12 layui-btn layui-btn-normal">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var cachedToken = {};//token存储
+
+    // Listen Enter press event
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+            $("#login_web").trigger("click");
+        }
+    });
+
+    // Click login button
+    $('#login_web').click(function () {
+        var email = $('#email').val();
+        var password = $('#password').val();
+        if (email && password) {
+            login(email, password);
+        }
+    })
+
+    function login(email, password) {
+        var that = this;
+        $.post('/auth/login', {
+            Email: email,
+            Password: password
+        },
+            function (res) {
+                if (res) {
+                    window.localStorage.setItem("token", res.accessToken);
+                    window.localStorage.setItem("expiresIn", res.expiresIn);
+                    window.localStorage.setItem("validTo", parseInt(new Date().getTime() / 1000 + ""))
+                    window.location.href = 'auth/index';
+                }
+            }).fail((fail) => {
+                console.log(fail)
+                if (fail.status == 401) {
+                    layer.msg('login failed');
+                }
+            });
+    }
+
+</script>
+
+</html>

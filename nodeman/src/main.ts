@@ -5,6 +5,12 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as express from 'express';
 import { ServerModule } from './module/server.module';
 
+import {configure, getLogger} from 'log4js';
+var path = require('path');
+var appDir = path.dirname(require.main.filename);
+configure(appDir + '/config/log4js.json');
+var logger = getLogger('main');
+
 const config = require('config-lite')(__dirname);
 
 function setupSwagger(app: INestApplication) {
@@ -23,12 +29,14 @@ async function bootstrap() {
   var factory = ApplicationModule;
 
   var serverType = config.IsManager ? 'manager' : 'proxy';
-  console.info('Starting server as a ' + serverType);
+  logger.info('Starting server as a ' + serverType);
 
   var port = config.IsManager ? config.ManagePort : (process.env.PORT || config.ProxyPort);
   if (config.IsManager && config.UseHttps) {
     const instance = express();
     var app = await NestFactory.create(factory, instance);
+    //app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
+
     setupSwagger(app);
     //app.useGlobalPipes(new ValidatorPipe());
     app.enableCors();
@@ -47,10 +55,11 @@ async function bootstrap() {
     let httpsServer = https.createServer(options, instance);
     await httpsServer.listen(port);
 
-    console.log('HTTPS server listening on port ' + port);
+    logger.info('HTTPS server listening on port ' + port);
   }
   else {
     const app = await NestFactory.create(factory);
+    //app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
     app.enableCors();
 
     if (config.IsManager) {
@@ -63,7 +72,7 @@ async function bootstrap() {
     app.init();
 
     var port = config.IsManager ? config.ManagePort : (process.env.PORT || config.ProxyPort);
-    console.log('HTTP server listening on port ' + port);
+    logger.info('HTTP server listening on port ' + port);
 
     await app.listen(port);
   }

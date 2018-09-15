@@ -2,6 +2,11 @@ import * as jwt from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { JwtPayload } from '../interfaces/jwt-payload.interface';
+import { configure, getLogger } from 'log4js';
+var path = require('path');
+var appDir = path.dirname(require.main.filename);
+configure(appDir + '/config/log4js.json');
+var logger = getLogger('main');
 
 @Injectable()
 export class AuthService {
@@ -28,13 +33,13 @@ export class AuthService {
             };
         }
         else {
-            console.warn('Cannot find user by email ' + email);
+            logger.warn(`Cannot find user by email ${email}`);
             return false;
         }
     }
 
     async validateUser(payload: JwtPayload): Promise<any> {
-        console.log('try to validate user');
+        logger.info(`Try to validate user by email ${payload.email}.`);
         return await this.userService.findOneByEmail(payload.email);
     }
 }
